@@ -1,0 +1,12 @@
+{
+  "name": "jabssapp",
+  "displayName": "jabssapp",
+  "expo": {
+    "name": "jabssapp",
+    "slug": "jabssapp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
