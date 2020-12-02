@@ -1,12 +1,31 @@
 {
-  "name": "jabssapp",
-  "displayName": "jabssapp",
+  "name": "JabssApp",
+  "displayName": "JabssApp",
   "expo": {
-    "name": "jabssapp",
-    "slug": "jabssapp",
+    "name": "JabssApp",
+    "slug": "JabssApp",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "orientation": "portrait",
+    "icon": "./app/assets/jabss-logo.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "com.jabsscorporation",
+      "googleServicesFile": "",
+      "versionCode": 1,
+      "useNextNotificationsApi": true
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "requireFullScreen": true,
+      "bundleIdentifier": "org.name.jabsscorporation"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "description": ""
   }
 }

@@ -129,9 +129,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    packagingOptions {
+        pickFirst '**/libjsc.so'
+        pickFirst '**/libc++_shared.so'
+    }
     defaultConfig {
-        applicationId "com.jabssapp"
+        applicationId "com.jabsscorporation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -147,10 +150,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('/Users/softbucketio/projects/appkeys/jabssapp.ppk')
+            storePassword 'avatar'
+            keyAlias 'key-jabssapp'
+            keyPassword 'avatar'
+        }
+        release {
+            storeFile file('/Users/softbucketio/projects/appkeys/jabssapp.ppk')
+            storePassword 'avatar'
+            keyAlias 'key-jabssapp'
+            keyPassword 'avatar'
         }
     }
     buildTypes {
@@ -160,7 +169,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -183,6 +192,16 @@ android {
 }
 
 dependencies {
+    //soloader
+    implementation 'com.facebook.soloader:soloader:0.9.0+'
+    //gif support
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:2.0.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
+    
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
