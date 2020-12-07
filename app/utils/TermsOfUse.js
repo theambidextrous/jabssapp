@@ -121,12 +121,6 @@ function TermsOfUse({ navigation }) {
 
         <Text style={styles.title}>Privacy</Text>
         <Text style={styles.paragraph}>Protecting your privacy is very important to us. Please review our Privacy Policy in order to better understand our commitment to maintaining your privacy, as well as our use and disclosure of your information.</Text>
-
-
-
-
-
-
     </View>
     </ScrollView>
   );
@@ -148,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight:"300",
     color:colors.dark,
     lineHeight:18,
-    textAlign:"justify",
+    textAlign:"left",
     marginTop:5,
   },
   bullet:{

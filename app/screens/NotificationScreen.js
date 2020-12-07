@@ -270,27 +270,18 @@ function NotificationScreen({ navigation }) {
       // Do something when the screen is focused
       // signOut();
       async function isConnectedDevice() {
+        let xtoken;
         await Network.getNetworkStateAsync()
           .then((netstat) => {
             setPreload({visible:true});
             AsyncStorage.getItem(configs.secret)
             .then((profile_data) => {
               profile_data = JSON.parse(profile_data);
-              let xtoken = profile_data.token;
+              xtoken = profile_data.token;
               setSession({...session, token: xtoken });
               setProfile(profile_data);
-              setPreload({visible:false});
-            }).catch((xerror) => {
-              console.log('profile data error', xerror);
-              setPreload({visible:false});
-            });
-            if(!netstat.isInternetReachable)
-            {
-              Alert.alert('Connection', 'Connection error, check your data',[{text:'Okay'}]);
-              // return;
-            }
-            else{
-                apiGetPref(session.token)
+              /** notifications */
+              apiGetPref(xtoken)
                 .then((prefdata) => {
                     // console.log('prefdata', prefdata.payload);
                     if(prefdata.payload.news === 1) {
@@ -318,6 +309,19 @@ function NotificationScreen({ navigation }) {
                     console.log('pref error', preferror);
                     Alert.alert('Connection warning', 'Network service error occured',[{text:'Okay'}]);
                 });
+              /** end notifications */
+              setPreload({visible:false});
+            }).catch((xerror) => {
+              console.log('profile data error', xerror);
+              setPreload({visible:false});
+            });
+            if(!netstat.isInternetReachable)
+            {
+              Alert.alert('Connection', 'Connection error, check your data',[{text:'Okay'}]);
+              // return;
+            }
+            else{
+                
             }
             
           })
@@ -347,7 +351,7 @@ function NotificationScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
         <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
           <View style={styles.parentView}>
@@ -515,9 +519,9 @@ const styles = StyleSheet.create({
   },
   imageView:{
     backgroundColor:colors.white,
-    width:100,
-    height:100,
-    borderRadius:100,
+    width:70,
+    height:70,
+    borderRadius:70,
   },
   shareContainer:{
     flex:1,

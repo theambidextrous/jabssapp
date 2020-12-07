@@ -3,6 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  KeyboardAvoidingView,
   TextInput,
   StyleSheet,
   StatusBar,
@@ -50,49 +51,26 @@ function RequestPwdResetScreen({ navigation }) {
     check_cpasswordInputChange: true,
   });
   const emailInputChange = (val) => {
-    if (validateEmail(val)) {
-      setData({
-        ...data,
-        email: val,
-        check_emailInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_emailInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      email: val,
+      check_emailInputChange: true,
+    });
   };
+
   const passwordInputChange = (val) => {
-    if (val.length >= 8) {
-      setData({
-        ...data,
-        password: val,
-        check_passwordInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        password: val,
-        check_passwordInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      password: val,
+      check_passwordInputChange: true,
+    });
   };
   const cpasswordInputChange = (val) => {
-    if (val === data.password) {
-      setData({
-        ...data,
-        c_password: val,
-        check_cpasswordInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        c_password: val,
-        check_cpasswordInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      c_password: val,
+      check_cpasswordInputChange: true,
+    });
   };
 
   const codeInputChange = (val) => {
@@ -152,11 +130,19 @@ function RequestPwdResetScreen({ navigation }) {
   };
   const requestHandler = () => {
     if (!validateEmail(data.email)) {
+      setData({
+        ...data,
+        check_emailInputChange:false
+      });
       Alert.alert("Reset error", "A valid email address must be provided", [
         { text: "Okay" },
       ]);
       return;
     }
+    setData({
+      ...data,
+      check_emailInputChange:true
+    });
     let foundUser;
     setPreload({ visible: true });
     apiReqReset(data.email)
@@ -187,7 +173,21 @@ function RequestPwdResetScreen({ navigation }) {
   };
 
   const changePasswordHandler = () => {
+    if (data.password.trim().length < 8 ) {
+      setData({
+        ...data,
+        check_passwordInputChange:false,
+      })
+      Alert.alert("Password error", "Provided password must be at least 8 characters long", [
+        { text: "Okay" },
+      ]);
+      return;
+    }
     if (data.password !== data.c_password) {
+      setData({
+        ...data,
+        check_cpasswordInputChange:false,
+      })
       Alert.alert("Password error", "Provided passwords must match", [
         { text: "Okay" },
       ]);
@@ -235,18 +235,19 @@ function RequestPwdResetScreen({ navigation }) {
       });
   };
   return (
+    <KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS == "ios" ? "padding" : "height"}>
     <LinearGradient colors={[colors.primary_darker, colors.primary_darker,colors.primary_dark, colors.primary_dark,colors.primary]} style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <View style={styles.logoCircle}>
         <Animatable.Image
           animation="bounceIn"
-          duration={1500}
+          duration={1}
           source={wlogo}
           resizeMode="contain"
           style={styles.logo}
         />
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+      <Animatable.View duration={1} animation="fadeInUpBig" style={styles.footer}>
         <ScrollView style={styles.footerHolder}>
           {/* phone */}
           {fieldvisible.email === true && (
@@ -257,17 +258,15 @@ function RequestPwdResetScreen({ navigation }) {
               <View style={styles.inputContainer}>
                 <TextInput
                   value={data.email}
+                  keyboardType="email-address"
                   placeholder=""
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                    borderColor:data.check_emailInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => emailInputChange(val)}
                 />
               </View>
-              {data.check_emailInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Provide a valid email</Text>
-                </Animatable.View>
-              )}
               <View style={styles.button}>
                 {/* login button */}
                 <TouchableOpacity
@@ -348,16 +347,13 @@ function RequestPwdResetScreen({ navigation }) {
                     <TextInput
                       secureTextEntry={true}
                       value={data.password}
-                      style={styles.textInput}
+                      style={[styles.textInput,{
+                        borderColor:data.check_passwordInputChange ? colors.ef : colors.red
+                      }]}
                       autoCapitalize="none"
                       onChangeText={(val) => passwordInputChange(val)}
                     />
                   </View>
-                  {data.check_passwordInputChange === false && (
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                      <Text style={styles.errorMsg}>Enter atleast 8 characters</Text>
-                    </Animatable.View>
-                  )}
                   {/* confirm password */}
                   <View style={styles.inputContainer}>
                     <Text style={styles.label}>Confirm password</Text>
@@ -367,16 +363,13 @@ function RequestPwdResetScreen({ navigation }) {
                       placeholder=""
                       secureTextEntry={true}
                       value={data.c_password}
-                      style={styles.textInput}
+                      style={[styles.textInput,{
+                        borderColor:data.check_cpasswordInputChange ? colors.ef : colors.red
+                      }]}
                       autoCapitalize="none"
                       onChangeText={(val) => cpasswordInputChange(val)}
                     />
                   </View>
-                  {data.check_cpasswordInputChange === false && (
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                      <Text style={styles.errorMsg}>Passwords do no match</Text>
-                    </Animatable.View>
-                  )}
 
                   <View style={styles.button}>
                     <TouchableOpacity
@@ -419,6 +412,7 @@ function RequestPwdResetScreen({ navigation }) {
      )}
       {/* end indicator */}
     </LinearGradient>
+    </KeyboardAvoidingView>
   );
 }
 export default RequestPwdResetScreen;
@@ -431,19 +425,19 @@ const styles = StyleSheet.create({
   },
   modalContainer:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"row",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.5,
+    height:Dimensions.get('screen').height*0.45,
   },
   modalContainerB:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"row",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.6,
+    height:Dimensions.get('screen').height*0.55,
   },
   header: {
     flex: 3,
@@ -540,7 +534,7 @@ const styles = StyleSheet.create({
     // paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:55,
     borderRadius:30,

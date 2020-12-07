@@ -443,6 +443,23 @@ const apiMakeCardDefault = (xtoken, postData) => {
     return Promise.reject(error);
   });
 };
+const apiGetFaq = (xtoken) => {
+  return fetch(conf.base_api + "transactions/faq/all", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + xtoken,
+    },
+    body: JSON.stringify({data:null}),
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .catch((error) => {
+    return Promise.reject(error);
+  });
+};
 const apiSend = (xtoken, postData) => {
   return fetch(conf.base_api + "transactions/init/send", {
     method: "POST",
@@ -507,4 +524,5 @@ export {
   apiEditCard,
   apiMakeCardDefault,
   apiDelCard,
+  apiGetFaq,
 };

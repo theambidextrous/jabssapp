@@ -404,9 +404,9 @@ function PersonalInfoScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <View style={styles.parentView}>
             <LinearGradient 
               style={[styles.stickyView, {justifyContent:"center", alignItems:"center"}]}
@@ -576,7 +576,7 @@ function PersonalInfoScreen({ navigation }) {
                   </View>
                 </View>
                 {/* ADDRESS MODAL */}
-                <Modal animationIn="slideInUp" animationInTiming={1000} isVisible={addresmodal}>
+                <Modal style={styles.modalContainerParent} animationIn="slideInUp" animationInTiming={800} isVisible={addresmodal}>
                     <View style={styles.modalContainerC}>
                         <View style={{alignItems:"center", marginTop:-10, alignContent:"center"}}>
                             <Icon.Button name="ios-close-circle" size={30} color={colors.secondary} backgroundColor={colors.white} style={{paddingVertical:10}} onPress={() => setAddressModal(false)}></Icon.Button>
@@ -585,7 +585,7 @@ function PersonalInfoScreen({ navigation }) {
                         <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0}]}>
                         </View>
                             {/* address */}
-                            <Text style={[styles.label,{marginBottom:1, marginTop:15}]}>Address</Text>
+                            <Text style={[styles.label,{marginBottom:1, marginTop:5}]}>Address</Text>
                             <View style={[styles.action,{marginTop:3}]}>
                             <TextInput
                                 value={addressdata.address}
@@ -729,9 +729,9 @@ const styles = StyleSheet.create({
   },
   imageView:{
     backgroundColor:colors.white,
-    width:100,
-    height:100,
-    borderRadius:100,
+    width:70,
+    height:70,
+    borderRadius:70,
   },
   shareContainer:{
     flex:1,
@@ -847,7 +847,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,
@@ -883,13 +883,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  modalContainerParent:{
+    
+  },
   modalContainerC:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.65,
+    // height:'95%',
+    height:Dimensions.get('window').height*.8,
+    marginBottom:Dimensions.get('window').height*.1,
+    marginTop:Dimensions.get('window').height*.1,
   },
 });
 

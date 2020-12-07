@@ -22,7 +22,7 @@ import { useTheme } from "@react-navigation/native";
 import { AuthContext } from "../components/context";
 import { Constants } from "react-native-unimodules";
 import Modal from 'react-native-modal';
-import { List } from 'react-native-paper';
+import { List,Paragraph } from 'react-native-paper';
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
@@ -31,6 +31,7 @@ import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import configs from "../config/configs";
 import {faq} from "../components/dummy";
 import { color } from "react-native-reanimated";
+import {apiGetFaq} from "../utils/network";
 /**  icons */
 
 function SupportScreen({ navigation }) {
@@ -38,6 +39,7 @@ function SupportScreen({ navigation }) {
   const theme = useTheme();
   const [preload, setPreload] = React.useState({ visible: false });
   const [session, setSession] = React.useState({ token: null});
+  const [faqsupport, setFaqsupport] = React.useState([]);
   const [updateVal, setUpdateVal] = React.useState(false);
   const [modalvisible, setModalVisible] = React.useState({ mail: false});
   /** check if user is still active */
@@ -57,6 +59,14 @@ function SupportScreen({ navigation }) {
             AsyncStorage.getItem('userToken')
             .then((xtoken) => {
               setSession({...session, token: xtoken });
+              apiGetFaq(xtoken).then((fres) => {
+                if(fres.status === 200 )
+                {
+                  setFaqsupport(fres.payload);
+                }
+              }).catch((ferror) => {
+                console.log('fres', ferror);
+              });
               setPreload({visible:false});
             }).catch((xerror) => {
               console.log('xtoken error', xerror);
@@ -89,9 +99,9 @@ function SupportScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <View style={styles.parentView}>
             {/* <View style={styles.stickyView}>
               
@@ -116,16 +126,11 @@ function SupportScreen({ navigation }) {
                 <View style={{alignItems:"center", marginBottom:15,}}>
                   <Text style={styles.faqTitle}>Frequently answered questions</Text>
                 </View>
-                { faq.map( (item, key) => (
+                { faqsupport.map( (sk, key) => (
                   <View key={key} style={styles.faqContainer}>
-                    <List.Accordion title={<View>
-                      <Text style={styles.fQuestion}>{item.q}</Text>
-                      </View>}>
-                      <List.Item title={
-                        <View>
-                        <Text style={styles.fAnswer}>{item.a}</Text>
-                        </View>
-                      }/>
+                    <List.Accordion titleNumberOfLines={3} 
+                    title={sk.question} titleStyle={{color:colors.grey}}>
+                      <List.Item descriptionNumberOfLines={5} description={sk.answer}></List.Item>
                     </List.Accordion>
                   </View>
                 ))}
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
   },
   topTitle:{
     fontWeight:"500",
-    fontSize:18,
+    fontSize:14,
     color:colors.white,
   },
   topHeading:{
@@ -190,8 +195,8 @@ const styles = StyleSheet.create({
     borderBottomWidth:1,
     flex:1,
     borderBottomColor:colors.ef,
-    marginBottom:2,
-    paddingBottom:5,
+    // marginBottom:2,
+    // paddingBottom:5,
   },
   fQuestion:{
     fontSize:16,

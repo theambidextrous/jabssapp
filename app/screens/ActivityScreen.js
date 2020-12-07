@@ -44,7 +44,7 @@ function ActivityScreen({ navigation }) {
   }
   const mailHandler = () => {
     Alert.alert(
-      'Email confirmation',
+      'Confirm action',
       "Would you like to send this transactions's receipt to your email?",
       [{
         text:'Yes',
@@ -105,9 +105,9 @@ function ActivityScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <ScrollView>
             { dummy.map( (item, key) => (
               <View style={styles.entry} key={key}>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,
@@ -306,11 +306,12 @@ const styles = StyleSheet.create({
   },
   modalContainer:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.70,
+    height:'95%',
+    // height:Dimensions.get('screen').height*0.70,
   },
   modalContainerB:{
     backgroundColor: colors.white,

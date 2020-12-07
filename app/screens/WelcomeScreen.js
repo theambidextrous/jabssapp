@@ -210,7 +210,7 @@ function WelcomeScreen({ navigation }) {
             style={pickerSelectStyles}
             items={[
                 { label: 'Send to mpesa', value: '1' },
-                { label: 'Send to till or paybill number', value: '2' },
+                { label: 'Send to till or paybill', value: '2' },
             ]}
             Icon={() => {
               return <Icon size={20} name="ios-arrow-down" color={colors.black} />;
@@ -576,14 +576,16 @@ function WelcomeScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <ScrollView>
             {/* options */}
             <Text style={styles.label}>Send options</Text>
             <View>
+              <View style={styles.textInput}>
               <Dropdown/>
+              </View>
             </View>
             {data.showmpesaopt ? (
               <View>
@@ -625,7 +627,7 @@ function WelcomeScreen({ navigation }) {
                 <View style={{flex:1, flexDirection:"row"}}>
                   <Text style={styles.label}>Bill account number</Text>
                   <Text style={styles.help} onPress={ () => showHelp() }>
-                    <MIcon name="help-circle" size={20} color={colors.primary} />
+                    <MIcon name="help-circle" size={20} color={colors.secondary} />
                   </Text>
                 </View>
                 <View style={styles.action}>
@@ -658,7 +660,9 @@ function WelcomeScreen({ navigation }) {
                     onChangeText={(val) => amountInputChange(val)}
                   />
                 </View>
-                <Text style={styles.termsLink}>1 USD = {forex.applied_rate}</Text>
+                <View style={{flex:1}}>
+                  <Text style={[styles.termsLink,{fontSize:10}]}>1 USD = {forex.applied_rate}</Text>
+                </View>
                 {data.isvalidamtusd === false && (
                   <Animatable.View animation="fadeInLeft" duration={500}>
                     <Text style={styles.errorMsg}>Invalid Amount</Text>
@@ -671,7 +675,7 @@ function WelcomeScreen({ navigation }) {
                 <View style={styles.action}>
                   <TextInput
                     placeholder=""
-                    value={data.amount_kes}
+                    value={handleNaN(data.amount_kes).toString()}
                     style={[styles.textInput,{backgroundColor:colors.white_dark, borderColor:colors.black_light}]}
                     autoCapitalize="none"
                     editable = {false}
@@ -697,7 +701,7 @@ function WelcomeScreen({ navigation }) {
               />
             </View>
             {/* button */}
-            <View style={styles.button}>
+            <View style={[styles.button, styles.Last]}>
               <TouchableOpacity
                 style={styles.signIn}
                 onPress={() => reviewHandler() }
@@ -715,7 +719,7 @@ function WelcomeScreen({ navigation }) {
 
             {/* add card MODAL */}
             <Modal animationIn="slideInUp" animationInTiming={100} isVisible={modalvisible.card}>
-              <View style={styles.modalContainer}>
+              <ScrollView style={styles.modalContainer}>
                 <View style={{flex:1}}>
                   <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0}]}>
                     <Text style={styles.modalTitle}>
@@ -809,7 +813,7 @@ function WelcomeScreen({ navigation }) {
                       </TouchableOpacity>
                     </View>
                 </View>
-              </View>
+              </ScrollView>
               {/* activity indicator */}
               { preload.visible === true && (
                   <View style={styles.loading}>
@@ -822,7 +826,7 @@ function WelcomeScreen({ navigation }) {
 
             {/* Review modal */}
             <Modal animationIn="slideInUp" animationInTiming={1000} isVisible={review}>
-              <View style={styles.modalContainerC}>
+              <ScrollView style={styles.modalContainerC}>
                 <View style={{flex:1}}>
                   <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0}]}>
                     <Text style={styles.modalTitle}>
@@ -873,7 +877,7 @@ function WelcomeScreen({ navigation }) {
                       </View>
                     </View>
                 </View>
-              </View>
+              </ScrollView>
             </Modal>
           </ScrollView>
         </Animatable.View>
@@ -893,7 +897,7 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     paddingLeft: 10,
     marginBottom:10,
-    borderWidth:1,
+    borderWidth:0,
     borderColor:colors.primary_darker,
     color: colors.black,
     height:50,
@@ -907,7 +911,7 @@ const pickerSelectStyles = StyleSheet.create({
     marginBottom:10,
     borderWidth:1,
     borderColor:colors.primary_darker,
-    color: colors.black,
+    color: colors.dark,
     height:50,
     borderRadius:30,
     textAlign: "center",
@@ -949,6 +953,9 @@ const styles = StyleSheet.create({
   infobaby:{
     paddingLeft:5,
   },
+  Last:{
+    marginBottom:30,
+  },
   footer: {
     flex: 1,
     backgroundColor: colors.white,
@@ -986,7 +993,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,
@@ -1042,7 +1049,7 @@ const styles = StyleSheet.create({
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.70,
+    maxHeight:Dimensions.get('screen').height*0.75,
   },
   modalContainerB:{
     backgroundColor: colors.white,
@@ -1058,7 +1065,7 @@ const styles = StyleSheet.create({
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.60,
+    maxHeight:Dimensions.get('screen').height*0.65,
   }
 });
 

@@ -186,9 +186,9 @@ function MyAccountScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <View style={styles.parentView}>
             <LinearGradient 
               style={[styles.stickyView, {justifyContent:"center", alignItems:"center"}]}
@@ -320,9 +320,9 @@ const styles = StyleSheet.create({
   },
   imageView:{
     backgroundColor:colors.white,
-    width:100,
-    height:100,
-    borderRadius:100,
+    width:70,
+    height:70,
+    borderRadius:70,
   },
   shareContainer:{
     flex:1,

@@ -10,6 +10,7 @@ import {
   Alert,
   Dimensions,
   ActivityIndicator,
+  KeyboardAvoidingView,
   Platform
 } from "react-native";
 import * as Animatable from "react-native-animatable";
@@ -31,11 +32,10 @@ const wlogo = require("../assets/jabss-logo.png");
 
 function SignInScreen({ navigation }) {
   const [data, setData] = React.useState({
-    email: "softbucket.io@gmail.com",
-    password: "Jabss@2020",
-    // email: "",
-    // password: "",
-    check_emailInputChange: false,
+    // email: "softbucket.io@gmail.com",
+    // password: "Jabss@2020",
+    email: "",
+    password: "",
     rememberMe: false,
     isValidUser: true,
     isValidPassword: true,
@@ -54,66 +54,55 @@ function SignInScreen({ navigation }) {
     return re.test(email);
   }
   const emailInputChange = (val) => {
-    if (validateEmail(val)) {
-      setData({
-        ...data,
-        email: val,
-        check_emailInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_emailInputChange: false,
-        isValidUser: false,
-      });
-    }
+    setData({
+      ...data,
+      email: val,
+      isValidUser:true,
+    });
   };
   const handlePasswordChange = (val) => {
-    if (val.trim().length >= 8) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: true,
-      });
-    } else {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-      });
-    }
-  };
-  const handleValidUser = (val) => {
-    if (validateEmail(val)) {
-      setData({
-        ...data,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        isValidUser: false,
-      });
-    }
+    setData({
+      ...data,
+      password: val,
+      isValidPassword:true,
+    });
   };
   const loginHandler = () => {
-    if ( data.email.length === 0 ) {
+    if ( validateEmail(data.email) === false ) {
+      setData({
+        ...data,
+        isValidUser:false,
+      });
       Alert.alert(
         "Sign in error",
-        "Email address is required",
+        "Valid email address is required",
         [{ text: "Okay" }]
       );
       return;
+    }else{
+      setData({
+        ...data,
+        isValidUser:true,
+      });
     }
-    if ( data.password.length === 0 ) {
+    console.log('data', data);
+    if ( data.password.trim().length < 8 ) {
+      setData({
+        ...data,
+        isValidPassword:false,
+      });
       Alert.alert(
         "Sign in error",
-        "Password is required",
+        "Valid password is required",
         [{ text: "Okay" }]
       );
       return;
+    }else{
+      setData({
+        ...data,
+        isValidPassword:true,
+        isValidUser:true,
+      });
     }
     let foundUser;
     setPreload({ visible: true });
@@ -222,109 +211,105 @@ function SignInScreen({ navigation }) {
     }, [])
   );
   return (
+    <KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS == "ios" ? "padding" : "height"}>
     <LinearGradient colors={[colors.primary_darker, colors.primary_darker,colors.primary_dark, colors.primary_dark,colors.primary]} style={styles.container}>
       <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <View style={styles.logoCircle}>
           <Animatable.Image
             animation="bounceIn"
-            duration={1500}
+            duration={1}
             source={wlogo}
             resizeMode="contain"
             style={styles.logo}
           />
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <ScrollView style={styles.footerHolder}>
-          
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email Address</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              underlineColorAndroid="transparent"
-              style={styles.textInput}
-              value={data.email}
-              autoCapitalize="none"
-              onChangeText={(val) => emailInputChange(val)}
-              onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-            />
-          </View>
-          {data.isValidUser ? null : (
-            <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Provide a valid email address</Text>
-            </Animatable.View>
-          )}
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              secureTextEntry={true}
-              value={data.password}
-              style={styles.textInput}
-              autoCapitalize="none"
-              onChangeText={(val) => handlePasswordChange(val)}
-            />
-          </View>
-          {data.isValidPassword ? null : (
-            <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Provide a valid password</Text>
-            </Animatable.View>
-          )}
-          {/* remember me */}
-          <View style={[styles.inputContainer,{justifyContent:"center"}]}>
-            <CheckBox
-              containerStyle={styles.checkContainer}
-              textStyle={styles.checkText}
-              title="Remember me"
-              checked={data.rememberMe}
-              onPress={() =>{
-                setData({...data, rememberMe: !data.rememberMe});
-              }}
-            />
-          </View>
-          {/* buttons */}
-          <View style={styles.button}>
-            {/* login button */}
-            <TouchableOpacity
-              style={styles.signIn}
-              onPress={() => {
-                loginHandler();
-              }}
-            >
-              <LinearGradient
-                colors={[colors.primary, colors.primary_dark, colors.primary_darker,colors.primary_darker]}
+      <Animatable.View duration={1} animation="fadeInUpBig" style={styles.footer}>
+          <ScrollView style={styles.footerHolder}>
+            
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email address</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                underlineColorAndroid="transparent"
+                keyboardType="email-address"
+                style={[styles.textInput,{
+                  borderColor:data.isValidUser ? colors.ef : colors.red
+                }]}
+                value={data.email}
+                autoCapitalize="none"
+                onChangeText={(val) => emailInputChange(val)}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                secureTextEntry={true}
+                value={data.password}
+                style={[styles.textInput,{
+                  borderColor:data.isValidPassword ? colors.ef : colors.red
+                }]}
+                autoCapitalize="none"
+                onChangeText={(val) => handlePasswordChange(val)}
+              />
+            </View>
+            {/* remember me */}
+            <View style={[styles.inputContainer,{justifyContent:"center"}]}>
+              <CheckBox
+                containerStyle={styles.checkContainer}
+                textStyle={styles.checkText}
+                title="Remember me"
+                checked={data.rememberMe}
+                onPress={() =>{
+                  setData({...data, rememberMe: !data.rememberMe});
+                }}
+              />
+            </View>
+            {/* buttons */}
+            <View style={styles.button}>
+              {/* login button */}
+              <TouchableOpacity
                 style={styles.signIn}
+                onPress={() => {
+                  loginHandler();
+                }}
               >
-                <Text style={styles.btnText}>
-                  Sign in
+                <LinearGradient
+                  colors={[colors.primary, colors.primary_dark, colors.primary_darker,colors.primary_darker]}
+                  style={styles.signIn}
+                >
+                  <Text style={styles.btnText}>
+                    Sign in
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.btnLinks}>
+              <TouchableOpacity
+              style={{flex:1}}
+                onPress={() => {
+                  navigation.navigate("RequestPwdResetScreen");
+                }}
+              >
+                <Text style={{ color: colors.primary, marginTop: 10 }}>
+                  Forgot password?
                 </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.btnLinks}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("RequestPwdResetScreen");
-              }}
-            >
-              <Text style={{ color: colors.primary, marginTop: 10 }}>
-                Forgot password?
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("SignUpScreen");
-              }}
-            >
-              <Text style={{ color: colors.primary, margin: 10 }}>
-                <Text style={{color:colors.grey}}>New here? </Text>
-                 Create Account
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+              </TouchableOpacity>
+              <TouchableOpacity
+              style={{flex:1}}
+                onPress={() => {
+                  navigation.navigate("SignUpScreen");
+                }}
+              >
+                <Text style={{ color: colors.primary, margin: 10 }}>
+                  <Text style={{color:colors.grey}}>New here? </Text>
+                  Create Account
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
       </Animatable.View>
       {/* activity indicator */}
      { preload.visible === true && (
@@ -334,6 +319,7 @@ function SignInScreen({ navigation }) {
      )}
       {/* end indicator */}
     </LinearGradient>
+    </KeyboardAvoidingView>
   );
 }
 export default SignInScreen;
@@ -408,12 +394,13 @@ const styles = StyleSheet.create({
     color:colors.black_light,
     fontSize:18,
     fontWeight:'400',
-    marginBottom:6,
+    marginBottom:1,
   },
   btnLinks:{
-    flexDirection:"row",
+    flexDirection:"column",
     marginTop:20,
     justifyContent:"center",
+    alignItems: "center"
   },
   actionError: {
     flexDirection: "row",
@@ -445,7 +432,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,
@@ -462,7 +449,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 1,
     height:55,
     flex: 1,
     width: "100%",

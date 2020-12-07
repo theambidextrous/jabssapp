@@ -8,6 +8,7 @@ import {
   StyleSheet,
   StatusBar,
   Image,
+  KeyboardAvoidingView,
   ActivityIndicator,
   SafeAreaView,
   Dimensions,
@@ -76,6 +77,7 @@ function SignUpScreen({ navigation }) {
     check_cpasswordInputChange: true,
   });
   const [preload, setPreload] = React.useState({ visible: false });
+  const [formerror, setFormError] = React.useState(0);
   const { signUp } = React.useContext(AuthContext);
   const [session, setSession] = React.useState({ showform: true});
   const [fieldvisible, setFieldVisible] = React.useState({
@@ -102,95 +104,46 @@ function SignUpScreen({ navigation }) {
     }
   }
   const fnameInputChange = (val) => {
-    if (val.length >= 3 ) {
-      setData({
-        ...data,
-        fname: val,
-        check_fnameInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        fname: val,
-        check_fnameInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      fname: val,
+      check_fnameInputChange: true,
+    });
   };
   const lnameInputChange = (val) => {
-    if (val.length >= 3 ) {
-      setData({
-        ...data,
-        lname: val,
-        check_lnameInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        lname: val,
-        check_lnameInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      lname: val,
+      check_lnameInputChange: true,
+    });
   };
   const addressInputChange = (val) => {
-    if (val.length >= 3 ) {
-      setData({
-        ...data,
-        address: val,
-        check_addressInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        address: val,
-        check_addressInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      address: val,
+      check_addressInputChange: true,
+    });
   };
   const cityInputChange = (val) => {
-    if (val.length >= 2 ) {
-      setData({
-        ...data,
-        city: val,
-        check_cityInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        city: val,
-        check_cityInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      city: val,
+      check_cityInputChange: true,
+    });
   };
   const stateInputChange = (val) => {
-    if (val.length >= 2 ) {
-      setData({
-        ...data,
-        state: val,
-        check_stateInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        state: val,
-        check_stateInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      state: val,
+      check_stateInputChange: true,
+    });
   };
   const zipInputChange = (val) => {
-    let zipcode = (val);
-    if ( !isNaN(zipcode) && zipcode.toString().length === 5) {
-      setData({
-        ...data,
-        zip: val,
-        check_zipInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        zip: val,
-        check_zipInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      zip: val,
+      check_zipInputChange: true,
+    });
   };
   const emailInputChange = (val) => {
     if (validateEmail(val)) {
@@ -493,15 +446,21 @@ function SignUpScreen({ navigation }) {
     })
   }
   const registerHandler = () => {
-    if ( data.check_fnameInputChange === false || data.fname.length === 0 ) {
-      setData({...data,check_fnameInputChange:false});
-      return;
+    if ( data.fname.length < 3 ) {
+      setFormError(formerror + 1);
+      setData({
+        ...data,
+        check_fnameInputChange:false
+      });
     }
-    if ( data.check_lnameInputChange === false || data.lname.length === 0 ) {
-      setData({...data,check_lnameInputChange:false});
-      return;
+    if ( data.lname.length < 3 ) {
+      setFormError(formerror + 1);
+      setData({
+        ...data,
+        check_lnameInputChange:false
+      });
     }
-    if ( data.check_addressInputChange === false || data.address.length === 0 ) {
+    if ( data.address.length < 5 ) {
       setData({...data,check_addressInputChange:false});
       return;
     }
@@ -583,6 +542,7 @@ function SignUpScreen({ navigation }) {
   };
 
   return (
+    <KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS == "ios" ? "padding" : "height"}>
       <View style={styles.container}>
       <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
       <SafeAreaView style={{flex:1}}>
@@ -594,10 +554,10 @@ function SignUpScreen({ navigation }) {
               animation="bounceIn"
               duration={1}
               source={wlogo}
-              height={150}
-              width={150}
-              style={{width:150,height:150}}
-              resizeMode="contain"
+              height={100}
+              width={100}
+              style={{width:100,height:100}}
+              // resizeMode="contain"
             />
           </View>
           { session.showform === true && (
@@ -608,64 +568,53 @@ function SignUpScreen({ navigation }) {
                 <TextInput
                   placeholder=""
                   value={data.fname}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_fnameInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => fnameInputChange(val)}
                 />
               </View>
-              {data.check_fnameInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid first name</Text>
-                </Animatable.View>
-              )}
               {/* Lname */}
               <Text style={styles.label}>Last name</Text>
               <View style={styles.action}>
                 <TextInput
                   placeholder=""
                   value={data.lname}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_lnameInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => lnameInputChange(val)}
                 />
               </View>
-              {data.check_lnameInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid last name</Text>
-                </Animatable.View>
-              )}
               {/* Address */}
               <Text style={styles.label}>Address</Text>
               <View style={styles.action}>
                 <TextInput
                   placeholder=""
+                  keyboardType="numbers-and-punctuation"
                   value={data.address}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_addressInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => addressInputChange(val)}
                 />
               </View>
-              {data.check_addressInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid address</Text>
-                </Animatable.View>
-              )}
               {/* City */}
               <Text style={styles.label}>City</Text>
               <View style={styles.action}>
                 <TextInput
                   placeholder=""
                   value={data.city}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_cityInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => cityInputChange(val)}
                 />
               </View>
-              {data.check_cityInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid city</Text>
-                </Animatable.View>
-              )}
               {/* ======= state zip ==== */}
               <View style={{flexDirection:"row"}}>
                 <View style={{flex:1, marginRight:10,}}>
@@ -675,16 +624,13 @@ function SignUpScreen({ navigation }) {
                     <TextInput
                       placeholder=""
                       value={data.state}
-                      style={styles.textInput}
+                      style={[styles.textInput,{
+                  borderColor:data.check_stateInputChange ? colors.ef : colors.red
+                  }]}
                       autoCapitalize="none"
                       onChangeText={(val) => stateInputChange(val)}
                     />
                   </View>
-                  {data.check_stateInputChange === false && (
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                      <Text style={styles.errorMsg}>Invalid state</Text>
-                    </Animatable.View>
-                  )}
                 </View>
                 <View style={{flex:1, marginLeft:10,}}>
                   {/* Lname */}
@@ -692,17 +638,15 @@ function SignUpScreen({ navigation }) {
                   <View style={styles.action}>
                     <TextInput
                       placeholder=""
+                      keyboardType="number-pad"
                       value={data.zip}
-                      style={styles.textInput}
+                      style={[styles.textInput,{
+                  borderColor:data.check_zipInputChange ? colors.ef : colors.red
+                  }]}
                       autoCapitalize="none"
                       onChangeText={(val) => zipInputChange(val)}
                     />
                   </View>
-                  {data.check_zipInputChange === false && (
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                      <Text style={styles.errorMsg}>Invalid zip code</Text>
-                    </Animatable.View>
-                  )}
                 </View>
               </View>
               {/* === end ===== */}
@@ -711,33 +655,29 @@ function SignUpScreen({ navigation }) {
               <View style={styles.action}>
                 <TextInput
                   placeholder=""
+                  keyboardType="email-address"
                   value={data.email}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_emailInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => emailInputChange(val)}
                 />
               </View>
-              {data.check_emailInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid email</Text>
-                </Animatable.View>
-              )}
               {/* phone */}
               <Text style={styles.label}>Phone Number</Text>
               <View style={styles.action}>
                 <TextInput
                   placeholder=""
                   value={data.phone}
-                  style={styles.textInput}
+                  keyboardType="number-pad"
+                  style={[styles.textInput,{
+                  borderColor:data.check_phoneInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => phoneInputChange(val)}
                 />
               </View>
-              {data.check_phoneInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Invalid phone</Text>
-                </Animatable.View>
-              )}
               {/* password */}
               <Text style={[styles.label]}>Password</Text>
               <View style={styles.action}>
@@ -745,16 +685,13 @@ function SignUpScreen({ navigation }) {
                   placeholder=""
                   value={data.password}
                   secureTextEntry={true}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_passwordInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => passwordInputChange(val)}
                 />
               </View>
-              {data.check_passwordInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Requires atleast 8 characters </Text>
-                </Animatable.View>
-              )}
               {/* confirm password */}
               <Text style={[styles.label]}>
                 Confirm password
@@ -763,16 +700,13 @@ function SignUpScreen({ navigation }) {
                 <TextInput
                   placeholder=""
                   secureTextEntry={true}
-                  style={styles.textInput}
+                  style={[styles.textInput,{
+                  borderColor:data.check_cpasswordInputChange ? colors.ef : colors.red
+                  }]}
                   autoCapitalize="none"
                   onChangeText={(val) => cpasswordInputChange(val)}
                 />
               </View>
-              {data.check_cpasswordInputChange === false && (
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                  <Text style={styles.errorMsg}>Passwords do not match</Text>
-                </Animatable.View>
-              )}
               {/* agree to terms */}
               <View>
                 <CheckBox
@@ -824,7 +758,7 @@ function SignUpScreen({ navigation }) {
               <View style={{justifyContent:"center", alignSelf:"center",paddingTop:10}}>
                 <TouchableOpacity onPress={showTermsModal} style={{flexDirection:"row"}}>
                   <Ionicons name="ios-checkmark-circle" size={30} color={colors.secondary} />
-                  <Text style={{fontSize:22, marginLeft:4,}}>I agree</Text>
+                  <Text style={{fontSize:22, marginLeft:4,}}>Okay</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -883,7 +817,7 @@ function SignUpScreen({ navigation }) {
           
           {/* add card MODAL */}
           <Modal animationIn="slideInUp" animationInTiming={100} isVisible={fieldvisible.card}>
-              <View style={styles.modalContainerC}>
+              <ScrollView style={styles.modalContainerC}>
                 <View style={{flex:1}}>
                   <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0}]}>
                     <Text style={styles.modalTitle}>
@@ -977,7 +911,7 @@ function SignUpScreen({ navigation }) {
                       </TouchableOpacity>
                     </View>
                 </View>
-              </View>
+              </ScrollView>
               {/* activity indicator */}
               { preload.visible === true && (
                   <View style={styles.loading}>
@@ -999,6 +933,7 @@ function SignUpScreen({ navigation }) {
       )}
         {/* end indicator */}
     </View>
+    </KeyboardAvoidingView>
   );
 }
 export default SignUpScreen;
@@ -1010,19 +945,28 @@ const styles = StyleSheet.create({
   },
   modalContainer:{
     backgroundColor: colors.white,
+    // flex:1,
+    flexDirection:"column",
+    padding:20,
+    borderRadius:40,
+    height:Dimensions.get('screen').height*0.85,
+  },
+  modalContainerB:{
+    backgroundColor: colors.white,
+    // flex:1,
+    flexDirection:"column",
+    padding:20,
+    borderRadius:40,
+    height:Dimensions.get('screen').height*0.45,
+  },
+  modalContainerC:{
+    backgroundColor: colors.white,
     flex:1,
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.85,
-  },
-  modalContainerB:{
-    backgroundColor: colors.white,
-    flex:1,
-    flexDirection:"row",
-    padding:20,
-    borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.5,
+    maxHeight:Dimensions.get('screen').height*0.75,
+    // marginBottom:Dimensions.get('screen').height*0.08,
   },
   header: {
     flex: 1,
@@ -1140,7 +1084,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,
@@ -1175,14 +1119,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  modalContainerC:{
-    backgroundColor: colors.white,
-    flex:1,
-    flexDirection:"column",
-    padding:20,
-    borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.70,
-  },
+  // modalContainerC:{
+  //   backgroundColor: colors.white,
+  //   // flex:1,
+  //   flexDirection:"column",
+  //   padding:20,
+  //   borderRadius:40,
+  //   height:Dimensions.get('screen').height*0.70,
+  //   marginBottom:Dimensions.get('screen').height*0.08,
+  // },
   loading: {
     position: 'absolute',
     left: 0,

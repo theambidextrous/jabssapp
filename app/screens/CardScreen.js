@@ -630,9 +630,9 @@ function CardScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.primary_darker} barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View animation="fadeInUpBig" duration={500} style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" duration={1} style={styles.footer}>
           <View style={styles.parentView}>
             <LinearGradient 
               style={[styles.stickyView, {justifyContent:"center", alignItems:"center"}]}
@@ -684,7 +684,7 @@ function CardScreen({ navigation }) {
                             </Text>
                         </View>
                         {cc.isdefault === 1 ? (
-                            <View style={{flex:4}}>
+                            <View style={{flex:5}}>
                                 <View style={{flexDirection:"row"}}>
                                     <Text style={styles.Eye}>Default</Text>
                                     <Switch
@@ -722,16 +722,16 @@ function CardScreen({ navigation }) {
                 {/* end cards */}
                 {/* add card MODAL */}
                 <Modal animationIn="slideInUp" animationInTiming={800} isVisible={addccmodal}>
-                    <View style={styles.modalContainerF}>
+                    <ScrollView  style={styles.modalContainerF}>
                         <View style={{alignItems:"center", marginTop:-10, alignContent:"center"}}>
                             <Icon.Button name="ios-close-circle" size={30} color={colors.secondary} backgroundColor={colors.white} style={{paddingVertical:0}} onPress={() => toggleAddCc(false)}></Icon.Button>
                         </View>
                         <View style={{flex:1, marginTop:-10,}}>
-                        <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0,backgroundColor:"transparent"}]}>
-                            <Text style={styles.modalTitle}>
-                            Add credit card
-                            </Text>
-                        </View>
+                          <View style={{marginTop:15,marginBottom:10}}>
+                              <Text style={styles.modalTitle}>
+                              Add credit card
+                              </Text>
+                          </View>
                             {/* card */}
                             <Text style={[styles.label,{marginBottom:1, marginTop:0}]}>Card number</Text>
                             <View style={[styles.action,{marginTop:3}]}>
@@ -819,7 +819,7 @@ function CardScreen({ navigation }) {
                             </TouchableOpacity>
                             </View>
                         </View>
-                    </View>
+                    </ScrollView>
                     {/* activity indicator */}
                     { preload.visible === true && (
                         <View style={styles.loading}>
@@ -830,22 +830,22 @@ function CardScreen({ navigation }) {
                 </Modal>
                 {/* edit card MODAL */}
                 <Modal animationIn="slideInUp" animationInTiming={800} isVisible={editccmodal}>
-                    <View style={styles.modalContainerC}>
+                    <ScrollView style={styles.modalContainerC}>
                         <View style={{alignItems:"center", marginTop:-10, alignContent:"center"}}>
                             <Icon.Button name="ios-close-circle" size={30} color={colors.secondary} backgroundColor={colors.white} style={{paddingVertical:0}} onPress={() => toggleEditCc(false)}></Icon.Button>
                         </View>
                         <View style={{flex:1, marginTop:-10}}>
-                        <View style={[styles.inputContainer, {justifyContent:"center",flexDirection:"column", marginBottom:0, backgroundColor:"transparent"}]}>
-                            <Text style={styles.modalTitle}>
-                            Edit credit card
-                            </Text>
-                        </View>
+                          <View style={{marginTop:15,marginBottom:10}}>
+                              <Text style={styles.modalTitle}>
+                              Edit credit card
+                              </Text>
+                          </View>
                             {/* card */}
                             <Text style={[styles.label,{marginBottom:1, marginTop:0}]}>Card number</Text>
                             <View style={[styles.action,{marginTop:3}]}>
                             <TextInput
                                 value={editcarddata.pan}
-                                style={styles.textInput}
+                                style={[styles.textInput,{marginBottom:1}]}
                                 autoCapitalize="none"
                                 onChangeText={(val) =>ecardInputChange(val)}
                             />
@@ -861,7 +861,7 @@ function CardScreen({ navigation }) {
                             <TextInput
                                 placeholder=""
                                 value={editcarddata.cardname}
-                                style={styles.textInput}
+                                style={[styles.textInput,{marginBottom:1}]}
                                 autoCapitalize="none"
                                 onChangeText={(val) => ecardnameInputChange(val)}
                             />
@@ -880,7 +880,7 @@ function CardScreen({ navigation }) {
                                 <TextInput
                                     placeholder=""
                                     value={editcarddata.exp}
-                                    style={styles.textInput}
+                                    style={[styles.textInput,{marginBottom:1}]}
                                     autoCapitalize="none"
                                     onChangeText={(val) => eexpInputChange(val)}
                                 />
@@ -899,7 +899,7 @@ function CardScreen({ navigation }) {
                                     placeholder=""
                                     secureTextEntry={true}
                                     value={editcarddata.fingerprint}
-                                    style={styles.textInput}
+                                    style={[styles.textInput,{marginBottom:1}]}
                                     autoCapitalize="none"
                                     onChangeText={(val) => ecvvInputChange(val)}
                                 />
@@ -955,7 +955,7 @@ function CardScreen({ navigation }) {
                             </View>
                             </View>
                         </View>
-                    </View>
+                    </ScrollView>
                     {/* activity indicator */}
                     { preload.visible === true && (
                         <View style={styles.loading}>
@@ -1020,9 +1020,9 @@ const styles = StyleSheet.create({
   },
   imageView:{
     backgroundColor:colors.white,
-    width:100,
-    height:100,
-    borderRadius:100,
+    width:70,
+    height:70,
+    borderRadius:70,
   },
   ccImage:{
       height:17,
@@ -1143,8 +1143,8 @@ const styles = StyleSheet.create({
   },
   btnText:{
     color:colors.white,
-    fontWeight:"700",
-    fontSize:22,
+    fontWeight:"500",
+    fontSize:18,
   },
   loading: {
     position: 'absolute',
@@ -1157,19 +1157,21 @@ const styles = StyleSheet.create({
   },
   modalContainerC:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.85,
+    // height:Dimensions.get('screen').height*0.75,
+    // height:'15%',
   },
   modalContainerF:{
     backgroundColor: colors.white,
-    flex:1,
+    // flex:1,
     flexDirection:"column",
     padding:20,
     borderRadius:40,
-    maxHeight:Dimensions.get('screen').height*0.70,
+    height:300,
+    marginBottom:30,
   },
   inputContainer: {
     flex: 1,
@@ -1195,7 +1197,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom:10,
     borderWidth:1,
-    borderColor:colors.primary_darker,
+    borderColor:colors.input,
     color: colors.black,
     height:50,
     borderRadius:30,

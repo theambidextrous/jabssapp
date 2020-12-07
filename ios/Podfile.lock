@@ -1,11 +1,22 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BVLinearGradient (2.5.6):
+    - React
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
+  - EXApplication (2.3.0):
+    - UMCore
+  - EXAV (8.6.0):
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
   - EXConstants (9.2.0):
     - UMConstantsInterface
     - UMCore
+  - EXDocumentPicker (8.4.1):
+    - UMCore
+    - UMFileSystemInterface
   - EXErrorRecovery (1.3.0):
     - UMCore
   - EXFileSystem (9.2.0):
@@ -18,17 +29,37 @@ PODS:
     - React-Core
     - UMCore
     - UMImageLoaderInterface
+  - EXImagePicker (9.1.1):
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
   - EXKeepAwake (8.3.0):
     - UMCore
   - EXLinearGradient (8.3.1):
+    - UMCore
+  - EXLocalAuthentication (9.3.0):
+    - UMConstantsInterface
     - UMCore
   - EXLocation (9.0.1):
     - UMCore
     - UMPermissionsInterface
     - UMTaskManagerInterface
+  - EXMediaLibrary (9.2.1):
+    - React
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
+  - EXNetwork (2.3.0):
+    - UMCore
+  - EXNotifications (0.7.2):
+    - UMCore
+    - UMPermissionsInterface
   - EXPermissions (9.3.0):
     - UMCore
     - UMPermissionsInterface
+  - EXScreenOrientation (2.0.0):
+    - React-Core
+    - UMCore
   - EXSplashScreen (0.6.2):
     - React
     - UMCore
@@ -271,6 +302,12 @@ PODS:
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
+  - react-native-netinfo (5.9.7):
+    - React-Core
+  - react-native-safe-area-context (3.1.4):
+    - React
+  - react-native-webview (10.10.2):
+    - React-Core
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
   - React-RCTAnimation (0.63.3):
@@ -331,11 +368,19 @@ PODS:
     - React-Core (= 0.63.3)
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
+  - RNCAsyncStorage (1.12.1):
+    - React-Core
+  - RNCMaskedView (0.1.10):
+    - React
+  - RNCPicker (1.6.6):
+    - React
   - RNGestureHandler (1.7.0):
     - React
   - RNReanimated (1.13.1):
     - React
   - RNScreens (2.10.1):
+    - React
+  - RNVectorIcons (7.1.0):
     - React
   - UMAppLoader (1.3.0)
   - UMBarCodeScannerInterface (5.3.0)
@@ -359,16 +404,26 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXApplication (from `../node_modules/expo-application/ios`)
+  - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
+  - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
+  - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - EXLocation (from `../node_modules/expo-location/ios`)
+  - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
+  - EXNetwork (from `../node_modules/expo-network/ios`)
+  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
+  - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - EXUpdates (from `../node_modules/expo-updates/ios`)
@@ -407,6 +462,9 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -417,9 +475,13 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
@@ -451,10 +513,18 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXApplication:
+    :path: "../node_modules/expo-application/ios"
+  EXAV:
+    :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXDocumentPicker:
+    :path: "../node_modules/expo-document-picker/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
@@ -463,14 +533,26 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
+  EXImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLinearGradient:
     :path: "../node_modules/expo-linear-gradient/ios"
+  EXLocalAuthentication:
+    :path: "../node_modules/expo-local-authentication/ios"
   EXLocation:
     :path: "../node_modules/expo-location/ios"
+  EXMediaLibrary:
+    :path: "../node_modules/expo-media-library/ios"
+  EXNetwork:
+    :path: "../node_modules/expo-network/ios"
+  EXNotifications:
+    :path: "../node_modules/expo-notifications/ios"
   EXPermissions:
     :path: "../node_modules/expo-permissions/ios"
+  EXScreenOrientation:
+    :path: "../node_modules/expo-screen-orientation/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   EXSQLite:
@@ -505,6 +587,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -525,12 +613,20 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-community/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMBarCodeScannerInterface:
@@ -562,18 +658,28 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714
+  EXApplication: 256b2a1348fc4a178d56bdbf45abeb08bee571c5
+  EXAV: afbd489420a6b21221d00a6b9f36dcf1a962d1d8
   EXConstants: 6ec1ea4a13ec734c7e2274bc9e5b7408d73007a1
+  EXDocumentPicker: a39ba27d27805ec2233e1c5f357ffa49d8425db0
   EXErrorRecovery: cfb65ec51567cf57a00b2720a2367ac009298319
   EXFileSystem: efd6c0225f90c8b2c85131d578a09e13197e8b70
   EXFont: 91111ccdce7c739ff51c5fcb484f2dd9a9a4ce45
   EXImageLoader: 0b33400e65955c5510a09afc2f9bb369a81e1c6e
+  EXImagePicker: 985ae75a3e0673101bdfc90a91e260d6a0fc2d3d
   EXKeepAwake: 4502a0ed7b7c5135587004e6d118acf8cea055fc
   EXLinearGradient: 54bec9b1b4940407fc498cab6a0c49c617c8cf54
+  EXLocalAuthentication: 39e9c3d452b8b10f1926cbe4c7b0588351d1dc11
   EXLocation: 210d39a6e5d793f9721117a11c0b27dc523a3183
+  EXMediaLibrary: 99746f58244e548bba2993b10c8b90a553a94ea8
+  EXNetwork: e7f8b932f7dff72633ff3e881ef4be72ed403e1c
+  EXNotifications: ca8ece365fd80604c4afd7a7b2d9e3c6b53ebe8e
   EXPermissions: 5797c6c72efb411b2bbf502cd5acd841e3ffeefa
+  EXScreenOrientation: 23f425187bef9b79013948708195baab046f4aa2
   EXSplashScreen: accde6b1aaa87f395d6c5e0542e23d5c09a549ab
   EXSQLite: 246074ef810a3b5e41c0cf8cde141adccc3b0f6b
   EXUpdates: 305ea4c81ed9e6f70274c1f5fe765d646d5dcbdc
@@ -599,6 +705,9 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
+  react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
+  react-native-safe-area-context: 0ed9288ed4409beabb0817b54efc047286fc84da
+  react-native-webview: ef8d30ecc5baf6bf7821690180c2f9bf2bdf00c0
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
@@ -609,9 +718,13 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
+  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
+  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCPicker: 494015f2b7ec4bee5484b6f235aa19691426dcdb
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   UMAppLoader: 939854a42e69527ee11dd17b39ebafcbfbefd05c
   UMBarCodeScannerInterface: 198ced513a0cf8143d822620f1620bce467d02be
   UMCameraInterface: dbcaade8d0364ba5518ae4519c63c59bf010aa89
